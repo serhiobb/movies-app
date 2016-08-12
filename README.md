@@ -18,4 +18,12 @@ Requires: php5, mysql
     `./app/console doctrine:schema:create`
 5. Add superuser
 
-    `./app/console fos:user:create %username% --superadmin`
+    `./app/console fos:user:create %username% --super-admin`
+    
+Login to admin at /admin/login
+Acccess Dashboard at /admin/dashboard
+
+Task questions located at `questions` file.
+
+#Working example:
+http://52.43.64.79/ (l: admin, p: admin)
