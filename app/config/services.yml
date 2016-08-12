@@ -11,16 +11,16 @@ services:
         class: AppBundle\Admin\MovieAdmin
         arguments: [~, AppBundle\Entity\Movie, AppBundle:MovieAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Movie }
+            - { name: sonata.admin, manager_type: orm, group: Entities, label: Movie }
 
     app.admin.tag:
         class: AppBundle\Admin\TagAdmin
         arguments: [~, AppBundle\Entity\Tag, AppBundle:TagAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Tag }
+            - { name: sonata.admin, manager_type: orm, group: Entities, label: Tag }
 
     app.admin.actor:
         class: AppBundle\Admin\ActorAdmin
         arguments: [~, AppBundle\Entity\Actor, AppBundle:ActorAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Actor }
+            - { name: sonata.admin, manager_type: orm, group: Entities, label: Actor }
