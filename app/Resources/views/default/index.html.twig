@@ -9,7 +9,11 @@
             <div class="movies">
                 {% for movie in movies %}
                     <div class="movie">{{ movie.title }}
-                        <sup class="quality">{{ movie.quality }}</sup>
+                        <sup class="quality">{{ movie.quality }}</sup><br>
+                        {{ movie.description }}<br>
+                        {% for tag in movie.tags %}<sub>{{ tag.name }}</sub>{% endfor %}<br>
+                        <hr>
+                        {% for actor in movie.actors %}<sub>{{ actor }}</sub>{% endfor %}<br>
                     </div>
                 {% endfor %}
             </div>
