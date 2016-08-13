@@ -1,0 +1,138 @@
+@font-face
+  font-family: 'GothicGauge'
+  src: url('/fonts/defaultgothicbgauge-webfont.eot') format('embedded-opentype'), url('/fonts/defaultgothicbgauge-webfont.woff') format('woff'), url('/fonts/defaultgothicbgauge-webfont.ttf')  format('truetype'), url('/fonts/defaultgothicbgauge-webfont.svg') format('svg')
+@font-face
+  font-family: 'SohoGothic'
+  src: url('/fonts/SohoGothicPro-Regular.otf') format('otf')
+
+@import 'grid'
+
+//colors
+$white: #FFFFFF
+$gray: #EDEDED
+$blue: #5DA5D0
+$gray-active-menu: #C1C1C1
+$yellow-logo: #ffbf16
+
+body
+  font-family: 'GothicGauge', sans-serif
+  font-size: 1em
+  line-height: 1.4em
+  margin: 0px
+div
+  box-sizing: border-box
+.float-right
+  float: right
+input[type=submit], button
+  color: $white
+  background: linear-gradient(to bottom, #24c624 0%, #19a61a 100%)
+  border: 1px solid #adadad
+  border-bottom-color: #8c8c8c
+  border-top-color: #d4d4d4
+  border-right-color: #757575
+  border-radius: 5px
+  font-size: 120%
+  padding: 0.4em
+  font-weight: bold
+  text-shadow: 0px 0px 2px #333333
+
+input[type=text], textarea
+  border: 2px solid #aaaaaa
+  border-radius: 2px
+  width: 100%
+
+.container
+  padding-top: 20px
+  padding-bottom: 20px
+
+.header
+  .logo
+    color: grey
+    font-size: 160%
+    b
+      color: black
+    span
+  .menu li a
+    color: $blue
+.menu
+  li
+    font-size: 120%
+    margin-left: 0px
+    padding: 4px 10px
+    display: inline-block
+    list-style: none
+    &.active
+      background-color: $gray
+    a
+      text-decoration: none
+      color: grey
+
+.big-headline
+  text-align: center
+  font-family: 'SohoGothic', sans-serif
+  background-color: $blue
+  color: $white
+  font-size: 120%
+
+.apps
+  background: $gray linear-gradient(to bottom, #777777 0%, $gray 8%)
+  .app
+    margin-top: -43px
+    font-size: 120%
+    text-align: center
+    img
+
+.content
+  margin-bottom: 42px
+  .left
+    .headline
+      padding: 1.2em
+      line-height: 128%
+      text-align: center
+      &.blue
+        background-color: $blue
+        color: $white
+        margin: 0.6em
+        padding: 0.6em
+    .phone
+      background-color: #44da36
+      padding: 0 0.4em
+      font-size: 90%
+      margin: 0 0.05em
+      display: inline-block
+  .right
+    .info-block
+      margin-bottom: 32px
+      h2
+        font-size: 120%
+        font-family: 'SohoGothic', sans-serif
+        text-transform: uppercase
+        padding-bottom: 26px
+        text-align: center
+        color: $blue
+        background: url('/images/gear.png') bottom center no-repeat
+      .client-review
+        .quote-mark
+          color: $gray
+          font-size: 120%
+        .name
+        .company
+        .quote
+
+.footer
+  background: $gray linear-gradient(to bottom, #777777 0%, $gray 8%)
+  .menu
+    font-size: 80%
+  .social-buttons
+    button
+      width: 32px
+      height: 32px
+      margin-right: 10px
+      &.facebook
+        background: url("/images/facebook_soc.png")
+      &.twitter
+        background: url("/images/twitter_soc.png")
+      &.linkedin
+        background: url("/images/linkedin_soc.png")
+  .copyright
+    font-size: 80%

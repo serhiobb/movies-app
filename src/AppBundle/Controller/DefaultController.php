@@ -16,10 +16,17 @@ class DefaultController extends Controller
     {
         $movies = $this->container->get('doctrine.orm.entity_manager')
             ->getRepository('AppBundle\Entity\Movie')->findAll();
-        // replace this example code with whatever you need
         return $this->render('default/index.html.twig', array(
             'base_dir' => realpath($this->container->getParameter('kernel.root_dir').'/..'),
             'movies' => $movies
         ));
+    }
+
+    /**
+     * @Route ("/dot-44", name="dot44")
+     */
+    public function dot44Action(Request $request)
+    {
+        return $this->render('dot44/index.html.twig');
     }
 }

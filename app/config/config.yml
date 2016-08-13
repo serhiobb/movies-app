@@ -10,6 +10,7 @@ parameters:
 
 framework:
 #    esi:             ~
+
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
@@ -27,9 +28,47 @@ framework:
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
+        gc_probability: 0
     fragments:       ~
     http_method_override: true
-
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: true
+    bundles:
+      - AppBundle
+    filters:
+      compass:
+         bin: /home/js/.rvm/gems/ruby-2.3.0/bin/compass
+         apply_to: "\.scss$|\.sass$"
+      cssrewrite: ~
+    assets:
+      images-gear:
+        inputs: '%kernel.root_dir%/Resources/assets/images/gear.png'
+        output: 'images/gear.png'
+      images-facebook-soc:
+        inputs: '%kernel.root_dir%/Resources/assets/images/facebook_soc.png'
+        output: 'images/facebook_soc.png'
+      images-twitter-soc:
+        inputs: '%kernel.root_dir%/Resources/assets/images/twitter_soc.png'
+        output: 'images/twitter_soc.png'
+      images-linkedin-soc:
+        inputs: '%kernel.root_dir%/Resources/assets/images/linkedin_soc.png'
+        output: 'images/linkedin_soc.png'
+      defaultgothicbgauge-webfont-eot:
+        inputs: '%kernel.root_dir%/Resources/assets/fonts/defaultgothicbgauge-webfont.eot'
+        output: 'fonts/defaultgothicbgauge-webfont.eot'
+      defaultgothicbgauge-webfont-svg:
+        inputs: '%kernel.root_dir%/Resources/assets/fonts/defaultgothicbgauge-webfont.svg'
+        output: 'fonts/defaultgothicbgauge-webfont.svg'
+      defaultgothicbgauge-webfont-ttf:
+        inputs: '%kernel.root_dir%/Resources/assets/fonts/defaultgothicbgauge-webfont.ttf'
+        output: 'fonts/defaultgothicbgauge-webfont.ttf'
+      defaultgothicbgauge-webfont-woff:
+        inputs: '%kernel.root_dir%/Resources/assets/fonts/defaultgothicbgauge-webfont.woff'
+        output: 'fonts/defaultgothicbgauge-webfont.woff'
+      sohogothicpro-regular-otf:
+        inputs: '%kernel.root_dir%/Resources/assets/fonts/SohoGothicPro-Regular.otf'
+        output: 'fonts/SohoGothicPro-Regular.otf'
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -104,6 +143,17 @@ sonata_block:
         sonata.user.block.menu:
         sonata.user.block.account:
         sonata.block.service.text:
+#fos_rest:
+#    routing_loader:
+#        default_format: json
+#    param_fetcher_listener: true
+#    body_listener: true
+#    format_listener:
+#        rules:
+#            # render "/api" requests as json
+#            - { path: ^/api, priorities: [ json ], fallback_format: json, prefer_extension: true }
+#            # default, fallback rendering twig templates
+#            - { path: ^/, priorities: ['html', 'application/javascript', 'text/css', '*/*'], fallback_format: html, prefer_extension: true }
 fos_user:
     db_driver:      orm
     firewall_name:  main
