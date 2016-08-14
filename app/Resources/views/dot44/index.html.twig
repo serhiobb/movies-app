@@ -10,13 +10,54 @@
     %}
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+    <script>
+        window.onload = function(){
+            function addError(errorObj, form){
+                console.log(errorObj)
+                form.elements[errorObj.field].classList.add('error')
+                form.querySelector('*[name='+errorObj.field+'] + span.error-message').textContent = errorObj.error
+            }
+            document.querySelector('.quote-request').onsubmit = function(evy){
+                evy.preventDefault()
+                fields = {}
+                fields.name = this.elements.name.value
+                fields.email = this.elements.email.value
+                fields.message = this.elements.message.value
+                for(field in fields){
+                    this.elements[field].classList.remove('error')
+                    this.querySelector('*[name='+field+'] + span.error-message').textContent = ''
+                }
+                mail_re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                errors = []
+                if (!(fields.name += '') || fields.name === '') { errors.push({ error: "No Name Given.", field: 'name' })}
+                if (!(fields.email += '') || fields.email === '') { errors.push({ error: "No Email Given.", field: 'email' })}
+                else if (!(mail_re.test(fields.email))) { errors.push({ error: "Email is not valid", field: 'email' })}
+                if (!(fields.message += '') || fields.message === '') { errors.push({ error: "No Message Given.", field: 'message' })}
+                for(error in errors){
+                    addError(errors[error], this)
+                }
+                if(errors.length === 0) this.send()
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="header">
     <div class="container">
         <div class="row">
             <div class="col-xs-6">
-                <div class="logo"><b>DOT <span>44</span></b> SOFTWARE STUDIO</div>
+                <div class="logo">
+                    <b>DOT
+                        <span>
+                            <span class="square">
+                                <span class="square">
+                                    <span>44</span>
+                                </span>
+                            </span>
+                        </span>
+                    </b>
+                    SOFTWARE STUDIO
+                </div>
             </div>
             <div class="col-xs-6">
                 <div class="menu">
@@ -69,7 +110,7 @@
                             you considered app development and took your business mobile?</p>
                         <p>Now it's time to take your company mobile through dedicated and branded application.
                             Remember, while you are thinking about it, your competitors are doing it -
-                            so don't delay -take action today.</p>
+                            so don't delay - take action today.</p>
                     </div>
                     <div>
                         <h2 class="headline blue">
@@ -87,14 +128,17 @@
                             <div class="row">
                                 <label for="name">Your Name:</label><br>
                                 <input type="text" name="name" id="name">
+                                <span class="error-message"></span>
                             </div>
                             <div class="row">
                                 <label for="email">E-mail:</label><br>
                                 <input type="text" name="email" id="email">
+                                <span class="error-message"></span>
                             </div>
                             <div class="row">
                                 <label for="message">Message</label><br>
                                 <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                                <span class="error-message"></span>
                             </div>
                             <div class="row"><input class="float-right" type="submit" value="Send"></div>
                         </form>
@@ -102,13 +146,11 @@
                     <div class="info-block">
                         <h2>Client testimonials</h2>
                         <div class="client-review">
-                            <div class="quote-mark">&#8221;</div>
-                            <div class="review">
-                                <div class="name">Jeff Richards</div>
-                                <div class="company">YellowPages Company</div>
-                                <div class="quote">We were and still on a mission to change the world as we know it.
-                                    Six years and lots of blood, sweat and tears later, we know how.
-                                </div>
+                            <div class="name">Jeff Richards</div>
+                            <div class="company">YellowPages Company</div>
+                            <div class="quote-mark">&#8220;</div>
+                            <div class="quote">We were and still on a mission to change the world as we know it.
+                                Six years and lots of blood, sweat and tears later, we know how.
                             </div>
                         </div>
                         <button class="float-right">Learn More</button>
