@@ -50,7 +50,7 @@ class Movie
     /**
      * @var \stdClass
      *
-     * @ORM\Column(name="quality", type="object")
+     * @ORM\ManyToOne(targetEntity="MovieQuality")
      */
     private $quality;
 
@@ -158,7 +158,7 @@ class Movie
     /**
      * Set quality
      *
-     * @param \stdClass $quality
+     * @param MovieQuality $quality
      * @return Movie
      */
     public function setQuality($quality)
@@ -171,7 +171,7 @@ class Movie
     /**
      * Get quality
      *
-     * @return \stdClass 
+     * @return MovieQuality
      */
     public function getQuality()
     {

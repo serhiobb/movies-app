@@ -1,0 +1,12 @@
+services:
+    app.admin.movie_quality:
+        class: AppBundle\Admin\MovieQualityAdmin
+        arguments: [~, AppBundle\Entity\MovieQuality, AppBundle:MovieQualityAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: MovieQuality }
+
+    app.admin.feedback_record:
+        class: AppBundle\Admin\FeedbackRecordAdmin
+        arguments: [~, AppBundle\Entity\FeedbackRecord, AppBundle:FeedbackRecordAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: FeedbackRecord }

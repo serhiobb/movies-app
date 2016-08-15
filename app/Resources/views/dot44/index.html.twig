@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
     <script>
-        window.onload = function(){
+        document.addEventListener('DOMContentLoaded', function(){
             function addError(errorObj, form){
                 console.log(errorObj)
                 form.elements[errorObj.field].classList.add('error')
@@ -36,9 +36,27 @@
                 for(error in errors){
                     addError(errors[error], this)
                 }
-                if(errors.length === 0) this.send()
+                if(errors.length === 0) {
+                    xhr = new XMLHttpRequest()
+                    xhr.open('POST', this.action)
+                    form = this
+                    xhr.onreadystatechange = function(){
+                        if(xhr.readyState === 4){
+                            response = JSON.parse(xhr.response)
+                            console.log(response)
+                            if(response.errors.length === 0){
+                                form.querySelector('.sent-message').textContent = "Your Message Is Sent!"
+                            }else{
+                                for(error in response.errors){
+                                    addError(response.errors[error], this)
+                                }
+                            }
+                        }
+                    }
+                    xhr.send(new FormData(this))
+                }
             }
-        }
+        })
     </script>
 </head>
 <body>
@@ -124,7 +142,8 @@
                 <div class="right">
                     <div class="info-block">
                         <h2>Request for quote</h2>
-                        <form class="quote-request" action="/request-quote" method="post">
+                        <form class="quote-request" action="/feedback/create" method="post">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                             <div class="row">
                                 <label for="name">Your Name:</label><br>
                                 <input type="text" name="name" id="name">
@@ -141,6 +160,7 @@
                                 <span class="error-message"></span>
                             </div>
                             <div class="row"><input class="float-right" type="submit" value="Send"></div>
+                            <div class="sent-message"></div>
                         </form>
                     </div>
                     <div class="info-block">
