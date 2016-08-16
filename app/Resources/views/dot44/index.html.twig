@@ -15,35 +15,38 @@
             function addError(errorObj, form){
                 console.log(errorObj)
                 form.elements[errorObj.field].classList.add('error')
-                form.querySelector('*[name='+errorObj.field+'] + span.error-message').textContent = errorObj.error
+                form.querySelector('*[id='+errorObj.field+'] + span.error-message').textContent = errorObj.error
             }
             document.querySelector('.quote-request').onsubmit = function(evy){
                 evy.preventDefault()
                 fields = {}
-                fields.name = this.elements.name.value
-                fields.email = this.elements.email.value
-                fields.message = this.elements.message.value
+                fields.feedback_record_name = this.elements.feedback_record_name.value
+                fields.feedback_record_email = this.elements.feedback_record_email.value
+                fields.feedback_record_message = this.elements.feedback_record_message.value
                 for(field in fields){
                     this.elements[field].classList.remove('error')
-                    this.querySelector('*[name='+field+'] + span.error-message').textContent = ''
+                    this.querySelector('*[id='+field+'] + span.error-message').textContent = ''
                 }
+                form.querySelector('.sent-message').textContent = ""
                 mail_re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
                 errors = []
-                if (!(fields.name += '') || fields.name === '') { errors.push({ error: "No Name Given.", field: 'name' })}
-                if (!(fields.email += '') || fields.email === '') { errors.push({ error: "No Email Given.", field: 'email' })}
-                else if (!(mail_re.test(fields.email))) { errors.push({ error: "Email is not valid", field: 'email' })}
-                if (!(fields.message += '') || fields.message === '') { errors.push({ error: "No Message Given.", field: 'message' })}
+                if (!(fields.feedback_record_name += '') || fields.feedback_record_name === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_name' })}
+                if (!(fields.feedback_record_email += '') || fields.feedback_record_email === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_email' })}
+                else if (!(mail_re.test(fields.feedback_record_email))) { errors.push({ error: "Email is not valid", field: 'feedback_record_email' })}
+                if (!(fields.feedback_record_message += '') || fields.feedback_record_message === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_message' })}
+                console.log(errors)
                 for(error in errors){
                     addError(errors[error], this)
                 }
                 if(errors.length === 0) {
                     xhr = new XMLHttpRequest()
                     xhr.open('POST', this.action)
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
                     form = this
                     xhr.onreadystatechange = function(){
                         if(xhr.readyState === 4){
                             response = JSON.parse(xhr.response)
-                            console.log(response)
+                            console.log(response.errors)
                             if(response.errors.length === 0){
                                 form.querySelector('.sent-message').textContent = "Your Message Is Sent!"
                             }else{
@@ -142,21 +145,30 @@
                 <div class="right">
                     <div class="info-block">
                         <h2>Request for quote</h2>
-                        <form class="quote-request" action="/feedback/create" method="post">
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                        <form class="quote-request" action="{{ path('dot44') }}" method="post">
+                            {{ form_widget(feedback_form._token) }}
                             <div class="row">
-                                <label for="name">Your Name:</label><br>
-                                <input type="text" name="name" id="name">
+                                {{ form_label(feedback_form.name) }}
+                                {{ form_widget(feedback_form.name) }}
+                                {{ form_errors(feedback_form.name) }}
+                                {#<label for="name">Your Name:</label><br>#}
+                                {#<input type="text" name="feedback_record[name]" id="name">#}
                                 <span class="error-message"></span>
                             </div>
                             <div class="row">
-                                <label for="email">E-mail:</label><br>
-                                <input type="text" name="email" id="email">
+                                {{ form_label(feedback_form.email) }}
+                                {{ form_widget(feedback_form.email) }}
+                                {{ form_errors(feedback_form.email) }}
+                                {#<label for="email">E-mail:</label><br>#}
+                                {#<input type="text" name="feedback_record[email]" id="email">#}
                                 <span class="error-message"></span>
                             </div>
                             <div class="row">
-                                <label for="message">Message</label><br>
-                                <textarea name="message" id="message" cols="30" rows="10"></textarea>
+                                {{ form_label(feedback_form.message) }}
+                                {{ form_widget(feedback_form.message) }}
+                                {{ form_errors(feedback_form.message) }}
+                                {#<label for="message">Message</label><br>#}
+                                {#<textarea name="message" id="message" cols="30" rows="10"></textarea>#}
                                 <span class="error-message"></span>
                             </div>
                             <div class="row"><input class="float-right" type="submit" value="Send"></div>

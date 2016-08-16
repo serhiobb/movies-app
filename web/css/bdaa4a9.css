@@ -1124,7 +1124,7 @@
     margin-left: 100%;
   }
 }
-/* line 17, assetic_compasszEgL3t.sass */
+/* line 17, assetic_compasseZQzPM.sass */
 body {
   font-family: "GothicGauge", sans-serif;
   font-size: 1em;
@@ -1132,17 +1132,17 @@ body {
   margin: 0px;
 }
 
-/* line 22, assetic_compasszEgL3t.sass */
+/* line 22, assetic_compasseZQzPM.sass */
 div {
   box-sizing: border-box;
 }
 
-/* line 24, assetic_compasszEgL3t.sass */
+/* line 24, assetic_compasseZQzPM.sass */
 .float-right {
   float: right;
 }
 
-/* line 26, assetic_compasszEgL3t.sass */
+/* line 26, assetic_compasseZQzPM.sass */
 input[type=submit], button {
   color: #FFFFFF;
   background: linear-gradient(to bottom, #53ad32 0%, #318516 100%);
@@ -1158,40 +1158,39 @@ input[type=submit], button {
   margin-top: 5px;
 }
 
-/* line 40, assetic_compasszEgL3t.sass */
-input[type=text], textarea {
+/* line 40, assetic_compasseZQzPM.sass */
+input[type=text], input[type=email], textarea {
   border: 2px solid #aaaaaa;
   border-radius: 2px;
   width: 100%;
 }
-/* line 44, assetic_compasszEgL3t.sass */
-input[type=text].error, textarea.error {
+/* line 44, assetic_compasseZQzPM.sass */
+input[type=text].error, input[type=email].error, textarea.error {
   border-color: red;
 }
 
-/* line 47, assetic_compasszEgL3t.sass */
+/* line 47, assetic_compasseZQzPM.sass */
 .container {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-/* line 52, assetic_compasszEgL3t.sass */
+/* line 52, assetic_compasseZQzPM.sass */
 .header .logo {
-  margin-top: 28px;
   color: grey;
   font-size: 160%;
 }
-/* line 56, assetic_compasszEgL3t.sass */
+/* line 56, assetic_compasseZQzPM.sass */
 .header .logo b {
   color: black;
 }
-/* line 58, assetic_compasszEgL3t.sass */
+/* line 58, assetic_compasseZQzPM.sass */
 .header .logo b > span {
   display: inline-block;
   position: relative;
   top: 0.5em;
 }
-/* line 62, assetic_compasszEgL3t.sass */
+/* line 62, assetic_compasseZQzPM.sass */
 .header .logo b span.square {
   display: inline-block;
   width: 1.15em;
@@ -1205,7 +1204,7 @@ input[type=text].error, textarea.error {
   padding-right: 0.4em;
   margin: 0 0.2em;
 }
-/* line 74, assetic_compasszEgL3t.sass */
+/* line 74, assetic_compasseZQzPM.sass */
 .header .logo b span.square > span.square {
   border: 1px solid #000;
   width: 0.9em;
@@ -1214,7 +1213,7 @@ input[type=text].error, textarea.error {
   right: 0.1em;
   top: -0.32em;
 }
-/* line 81, assetic_compasszEgL3t.sass */
+/* line 81, assetic_compasseZQzPM.sass */
 .header .logo b span.square > span.square > span {
   display: inline-block;
   border: none;
@@ -1222,12 +1221,12 @@ input[type=text].error, textarea.error {
   position: relative;
   top: -0.15em;
 }
-/* line 87, assetic_compasszEgL3t.sass */
+/* line 87, assetic_compasseZQzPM.sass */
 .header .menu li a {
   color: #5DA5D0;
 }
 
-/* line 90, assetic_compasszEgL3t.sass */
+/* line 90, assetic_compasseZQzPM.sass */
 .menu li {
   font-size: 120%;
   margin-left: 0px;
@@ -1235,17 +1234,17 @@ input[type=text].error, textarea.error {
   display: inline-block;
   list-style: none;
 }
-/* line 96, assetic_compasszEgL3t.sass */
+/* line 96, assetic_compasseZQzPM.sass */
 .menu li.active {
   background-color: #EDEDED;
 }
-/* line 98, assetic_compasszEgL3t.sass */
+/* line 98, assetic_compasseZQzPM.sass */
 .menu li a {
   text-decoration: none;
   color: grey;
 }
 
-/* line 102, assetic_compasszEgL3t.sass */
+/* line 102, assetic_compasseZQzPM.sass */
 .big-headline {
   text-align: center;
   font-family: "SohoGothic", sans-serif;
@@ -1254,36 +1253,36 @@ input[type=text].error, textarea.error {
   font-size: 120%;
 }
 
-/* line 109, assetic_compasszEgL3t.sass */
+/* line 109, assetic_compasseZQzPM.sass */
 .apps {
   background: #EDEDED linear-gradient(to bottom, #777777 0%, #EDEDED 8%);
 }
-/* line 111, assetic_compasszEgL3t.sass */
+/* line 111, assetic_compasseZQzPM.sass */
 .apps .app {
   margin-top: -43px;
   font-size: 120%;
   text-align: center;
 }
 
-/* line 116, assetic_compasszEgL3t.sass */
+/* line 116, assetic_compasseZQzPM.sass */
 .content {
   margin-bottom: 42px;
 }
-/* line 119, assetic_compasszEgL3t.sass */
+/* line 119, assetic_compasseZQzPM.sass */
 .content .left .headline {
   font-size: 110%;
   padding: 1.2em;
   line-height: 128%;
   text-align: center;
 }
-/* line 124, assetic_compasszEgL3t.sass */
+/* line 124, assetic_compasseZQzPM.sass */
 .content .left .headline.blue {
   background-color: #5DA5D0;
   color: #FFFFFF;
   margin: 0.6em;
   padding: 0.6em;
 }
-/* line 129, assetic_compasszEgL3t.sass */
+/* line 129, assetic_compasseZQzPM.sass */
 .content .left .phone {
   background-color: #44da36;
   padding: 0 0.4em;
@@ -1291,11 +1290,11 @@ input[type=text].error, textarea.error {
   margin: 0 0.05em;
   display: inline-block;
 }
-/* line 136, assetic_compasszEgL3t.sass */
+/* line 136, assetic_compasseZQzPM.sass */
 .content .right .info-block {
   margin-bottom: 32px;
 }
-/* line 138, assetic_compasszEgL3t.sass */
+/* line 138, assetic_compasseZQzPM.sass */
 .content .right .info-block h2 {
   font-size: 110%;
   font-family: "SohoGothic", sans-serif;
@@ -1305,7 +1304,7 @@ input[type=text].error, textarea.error {
   color: #5DA5D0;
   background: url("/images/gear.png") bottom center no-repeat;
 }
-/* line 147, assetic_compasszEgL3t.sass */
+/* line 147, assetic_compasseZQzPM.sass */
 .content .right .info-block .client-review .quote-mark {
   margin-top: 50px;
   margin-bottom: -50px;
@@ -1314,61 +1313,61 @@ input[type=text].error, textarea.error {
   font-family: "Verdana";
 }
 @media (max-width: 640px) {
-  /* line 147, assetic_compasszEgL3t.sass */
+  /* line 147, assetic_compasseZQzPM.sass */
   .content .right .info-block .client-review .quote-mark {
     display: none;
   }
 }
-/* line 155, assetic_compasszEgL3t.sass */
+/* line 155, assetic_compasseZQzPM.sass */
 .content .right .info-block .client-review .name, .content .right .info-block .client-review .company, .content .right .info-block .client-review .quote {
   font-size: 80%;
 }
-/* line 157, assetic_compasszEgL3t.sass */
+/* line 157, assetic_compasseZQzPM.sass */
 .content .right .info-block .client-review .name {
   font-weight: bold;
 }
-/* line 159, assetic_compasszEgL3t.sass */
+/* line 159, assetic_compasseZQzPM.sass */
 .content .right .info-block .client-review .quote {
   margin-left: 48px;
 }
 @media(max-width: 640px) {
-  /* line 159, assetic_compasszEgL3t.sass */
+  /* line 159, assetic_compasseZQzPM.sass */
   .content .right .info-block .client-review .quote {
     margin-left: 0;
   }
 }
-/* line 164, assetic_compasszEgL3t.sass */
+/* line 164, assetic_compasseZQzPM.sass */
 .footer {
   background: #EDEDED linear-gradient(to bottom, #777777 0%, #EDEDED 8%);
 }
-/* line 166, assetic_compasszEgL3t.sass */
+/* line 166, assetic_compasseZQzPM.sass */
 .footer .menu {
   font-size: 70%;
 }
-/* line 168, assetic_compasszEgL3t.sass */
+/* line 168, assetic_compasseZQzPM.sass */
 .footer .menu ul {
   margin-left: 0;
   padding-left: 0;
 }
-/* line 172, assetic_compasszEgL3t.sass */
+/* line 172, assetic_compasseZQzPM.sass */
 .footer .social-buttons button {
   width: 32px;
   height: 32px;
   margin-right: 10px;
 }
-/* line 176, assetic_compasszEgL3t.sass */
+/* line 176, assetic_compasseZQzPM.sass */
 .footer .social-buttons button.facebook {
   background: url("/images/facebook_soc.png");
 }
-/* line 178, assetic_compasszEgL3t.sass */
+/* line 178, assetic_compasseZQzPM.sass */
 .footer .social-buttons button.twitter {
   background: url("/images/twitter_soc.png");
 }
-/* line 180, assetic_compasszEgL3t.sass */
+/* line 180, assetic_compasseZQzPM.sass */
 .footer .social-buttons button.linkedin {
   background: url("/images/linkedin_soc.png");
 }
-/* line 182, assetic_compasszEgL3t.sass */
+/* line 182, assetic_compasseZQzPM.sass */
 .footer .copyright {
   font-size: 80%;
 }

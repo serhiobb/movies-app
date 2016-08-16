@@ -17,7 +17,7 @@ class FeedbackRecordType extends AbstractType
         $builder
             ->add('name')
             ->add('email')
-            ->add('message')
+            ->add('message','textarea', ['attr'=>['cols'=>30,'rows'=>10]])
         ;
     }
     

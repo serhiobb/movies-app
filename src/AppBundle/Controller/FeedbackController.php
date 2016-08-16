@@ -24,7 +24,8 @@ class FeedbackController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($form->getData());
+            $data = $form->getData();
+            $em->persist($data);
             $em->flush();
             return $this->handleView($this->view(['message'=>'Done'], 200));
         }else{
