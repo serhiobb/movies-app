@@ -27,7 +27,7 @@
                     this.elements[field].classList.remove('error')
                     this.querySelector('*[id='+field+'] + span.error-message').textContent = ''
                 }
-                form.querySelector('.sent-message').textContent = ""
+                this.querySelector('.sent-message').textContent = ""
                 mail_re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
                 errors = []
                 if (!(fields.feedback_record_name += '') || fields.feedback_record_name === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_name' })}
