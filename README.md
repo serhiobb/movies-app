@@ -1,5 +1,5 @@
-Movies app in symfony2
-========================
+Symfony2 app example
+====================
 
 Installation
 --------------
