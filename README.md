@@ -21,5 +21,7 @@ Requires: php5, mysql
     `./app/console fos:user:create %username% --super-admin`
     
 Login to admin at /admin/login
+
 Acccess Dashboard at /admin/dashboard
+
 Authors/books RESTful API uri's: `/api/authors` & `/api/books`
