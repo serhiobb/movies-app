@@ -22,3 +22,4 @@ Requires: php5, mysql
     
 Login to admin at /admin/login
 Acccess Dashboard at /admin/dashboard
+Authors/books RESTful API uri's: `/api/authors` & `/api/books`
