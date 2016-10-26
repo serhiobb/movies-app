@@ -36,3 +36,15 @@ services:
         arguments: [~, AppBundle\Entity\FeedbackRecord, AppBundle:FeedbackRecordAdmin]
         tags:
             - { name: sonata.admin, manager_type: orm, group: Dot-44, label: FeedbackRecord }
+
+    app.admin.author:
+        class: AppBundle\Admin\AuthorAdmin
+        arguments: [~, AppBundle\Entity\Author, AppBundle:AuthorAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Entities, label: Author }
+
+    app.admin.book:
+        class: AppBundle\Admin\BookAdmin
+        arguments: [~, AppBundle\Entity\Book, AppBundle:BookAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Entities, label: Book }

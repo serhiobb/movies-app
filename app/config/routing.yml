@@ -1,3 +1,13 @@
+app_book_api:
+    resource: "@AppBundle/Controller/BookRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_author_api:
+    resource: "@AppBundle/Controller/AuthorRESTController.php"
+    type:   rest
+    prefix:   /api
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

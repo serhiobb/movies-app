@@ -24,6 +24,14 @@ class DefaultController extends Controller
             'movies' => $movies
         ));
     }
+    /**
+     * @Route("/", name="app")
+     */
+    public function appAction(Request $request)
+    {
+        $react = [];
+        echo 'React';
+    }
 
     /**
      * @Route("/dot-44", name="dot44")

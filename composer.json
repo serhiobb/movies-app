@@ -32,7 +32,9 @@
         "sonata-project/datagrid-bundle": "^2.2",
         "stfalcon/tinymce-bundle": "1.0",
         "codeception/codeception": "^2.2",
-        "symfony/assetic-bundle": "^2.8"
+        "symfony/assetic-bundle": "^2.8",
+        "react/react": "^0.4.2",
+        "voryx/restgeneratorbundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
