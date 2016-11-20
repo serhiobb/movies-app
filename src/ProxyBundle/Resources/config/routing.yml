@@ -1,0 +1,4 @@
+endpoint_proxy:
+    resource: httpbin
+    type:     guzzle_proxy
+    prefix:   /proxied

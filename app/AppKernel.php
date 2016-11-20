@@ -34,6 +34,8 @@ class AppKernel extends Kernel
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             new Sonata\UserBundle\SonataUserBundle('FOSUserBundle'),
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
+            new Bangpound\Bundle\GuzzleProxyBundle\BangpoundGuzzleProxyBundle(),
+            new ProxyBundle\ProxyBundle(),
             new AppBundle\AppBundle(),
         );
 

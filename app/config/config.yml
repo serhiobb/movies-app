@@ -2,12 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+    - { resource: "@ProxyBundle/Resources/config/services.yml" }
 parameters:
     locale: en
-
 framework:
 #    esi:             ~
     translator:      { fallbacks: ["%locale%"] }
@@ -149,10 +146,9 @@ fos_rest:
     body_listener: true
     #disable_csrf_role: ROLE_USER
     body_converter:
-        enabled: true
+        enabled: false
     view:
         view_response_listener: force
-
 nelmio_cors:
     defaults:
         allow_credentials: false
@@ -188,3 +184,7 @@ sonata_dashboard:
     class:
         dashboard: Application\Sonata\DashboardBundle\Entity\Dashboard
         block:     Application\Sonata\DashboardBundle\Entity\Block
+bangpound_guzzle_proxy:
+    endpoints:
+        httpbin:
+            base_uri: 'http://httpbin.org/'

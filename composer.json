@@ -34,7 +34,8 @@
         "codeception/codeception": "^2.2",
         "symfony/assetic-bundle": "^2.8",
         "react/react": "^0.4.2",
-        "voryx/restgeneratorbundle": "dev-master"
+        "voryx/restgeneratorbundle": "dev-master",
+        "bangpound/guzzle-proxy-bundle": "2.0.x-dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
