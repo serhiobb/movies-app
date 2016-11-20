@@ -2,19 +2,15 @@
 
 namespace ProxyBundle\Controller;
 
-use Bangpound\Bundle\GuzzleProxyBundle\Controller\ProxyController as Controller;
-use Bangpound\Bundle\GuzzleProxyBundle\DependencyInjection\Configuration;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Bridge\PsrHttpMessage\Factory\DiactorosFactory;
 use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProxyController extends Controller
+class ProxyController
 {
     use ContainerAwareTrait;
 
@@ -29,7 +25,28 @@ class ProxyController extends Controller
         $psr7Factory = new DiactorosFactory();
         $request = $psr7Factory->createRequest($request);
 
-        $response = parent::proxy($endpoint, $request);
+        /** @var ClientInterface $client */
+        $client = $this->container->get('proxy.client.'.$endpoint);
+
+        $rel = $request->getAttribute('path');
+        if ($request->getQueryParams()) {
+            $rel .= '?'.\GuzzleHttp\Psr7\build_query($request->getQueryParams());
+        }
+        $rel = new Uri($rel);
+
+        $uri = $client->getConfig('base_url');
+        $uri = new Uri($uri);
+        $uri = Uri::resolve($uri, $rel);
+
+        $request = \GuzzleHttp\Psr7\modify_request($request, array(
+            'uri' => $uri,
+        ));
+
+        $response = $client->send($request);
+
+        if ($response->hasHeader('Transfer-Encoding')) {
+            $response = $response->withoutHeader('Transfer-Encoding');
+        }
 
         $httpFoundationFactory = new HttpFoundationFactory();
         $response = $httpFoundationFactory->createResponse($response);

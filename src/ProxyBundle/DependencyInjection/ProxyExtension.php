@@ -2,8 +2,6 @@
 
 namespace ProxyBundle\DependencyInjection;
 
-use Bangpound\Bundle\GuzzleProxyBundle\DependencyInjection\BangpoundGuzzleProxyExtension;
-use Bangpound\Bundle\GuzzleProxyBundle\DependencyInjection\Configuration;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
@@ -15,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class ProxyExtension extends BangpoundGuzzleProxyExtension
+class ProxyExtension extends Extension
 {
     /**
      * {@inheritdoc}
@@ -29,7 +27,7 @@ class ProxyExtension extends BangpoundGuzzleProxyExtension
 //        $serviceBaseName = preg_replace('/.+\\\\(.[^\\\\]+)Extension$/','$1', __CLASS__);
         foreach($config['endpoints'] as $name => $params){
             $def = new Definition('GuzzleHttp\Client', [$params]);
-            $serviceName = 'bangpound_guzzle_proxy.client.' . $name;
+            $serviceName = 'proxy.client.' . $name;
             $container->addDefinitions([$serviceName => $def]);
         }
 

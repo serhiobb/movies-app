@@ -1,19 +1,19 @@
 parameters:
-    bangpound_guzzle_proxy.controller.class: ProxyBundle\Controller\ProxyController
-    bangpound_guzzle_proxy.routing_loader.class: Bangpound\Bundle\GuzzleProxyBundle\Routing\ProxyLoader
-    bangpound_guzzle_proxy.client.class: GuzzleHttp\Client
+    proxy.controller.class: ProxyBundle\Controller\ProxyController
+    proxy.routing_loader.class: ProxyBundle\Routing\ProxyLoader
+    proxy.client.class: GuzzleHttp\Client
 
 services:
-    bangpound_guzzle_proxy.controller:
-        class: '%bangpound_guzzle_proxy.controller.class%'
+    proxy.controller:
+        class: '%proxy.controller.class%'
         calls:
             - [ setContainer, [ "@service_container" ] ]
 
-    bangpound_guzzle_proxy.routing_loader:
-        class: '%bangpound_guzzle_proxy.routing_loader.class%'
+    proxy.routing_loader:
+        class: '%proxy.routing_loader.class%'
         tags:
             - { name: routing.loader }
 
-    bangpound_guzzle_proxy.client:
-        class: '%bangpound_guzzle_proxy.client.class%'
+    proxy.client:
+        class: '%proxy.client.class%'
         abstract: true
