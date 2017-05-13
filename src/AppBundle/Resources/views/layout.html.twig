@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" media="screen" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
+	<a class="navbar-brand" href="#">{% block title %}{% endblock %}</a>
+	<ul class="nav navbar-nav">
+        <li>
+            <div class="dropdown">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                categories
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation" class="dropdown-header">Dropdown header</li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+                <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+                <li role="presentation" class="divider"></li>
+                <li role="presentation" class="dropdown-header">Dropdown header</li>
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+              </ul>
+            </div>
+        </li>
+        <li><a href="#">store</a></li>
+        <li><a href="#">discounts</a></li>
+        <li class="active">
+			<a href="#">cart</a>
+		</li>
+		<li>
+			<a href="#">profile</a>
+		</li>
+	</ul>
+</nav>
+<div class="page-header">
+  <h1>Title<small></small></h1>
+</div>
+{% block body %}{% endblock %}
+{% block body2 %}{% endblock %}
+<script>
+    var $r=0, $g=0, $b=0
+    document.querySelectorAll('*').forEach(function(el){
+//        el.style.boxShadow = '1px 2px 8px black'
+        el.style.color = 'white'
+        el.style.backgroundColor = 'rgb('+$r+','+$g+','+$b+')'
+        $r = $r + 1
+        $g = $g + 1
+        $b = $b + 1
+        if($r >= 127) $r = 0; if($g >= 127) $g = 0; if($b >= 127) $b = 0
+//        if($r <= 0) $r = $r+70
+//        if($g >= 255) $g = $g-70
+//        if($b >= 255) $b = $b - 70
+//        el.onmouseenter = function(el){
+//            el.target.style.boxShadow = '1px 2px 8px black'
+//            el.target.style.color = 'black'
+//        }
+//        el.onmouseleave = function(el){
+//            el.target.style.boxShadow = '1px 2px 8px white'
+//            el.target.style.color = 'black'
+//        }
+    })
+</script>
+</body>
+</html>

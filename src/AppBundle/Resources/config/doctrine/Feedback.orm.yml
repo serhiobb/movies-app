@@ -1,0 +1,27 @@
+AppBundle\Entity\Feedback:
+    type: entity
+    table: feedback
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        whereFrom:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: where_from
+        content:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

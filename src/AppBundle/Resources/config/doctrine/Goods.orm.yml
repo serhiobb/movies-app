@@ -1,0 +1,37 @@
+AppBundle\Entity\Goods:
+    type: entity
+    table: goods
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        name:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        weight:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        dimensions:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+        cost:
+            type: float
+            nullable: true
+            precision: 10
+            scale: 0
+    lifecycleCallbacks: {  }

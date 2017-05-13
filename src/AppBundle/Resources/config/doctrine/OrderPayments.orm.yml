@@ -1,0 +1,26 @@
+AppBundle\Entity\OrderPayments:
+    type: entity
+    table: order_payments
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        status:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+    oneToOne:
+        customerId:
+            targetEntity: Customer
+            joinColumn:
+                name: customer_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

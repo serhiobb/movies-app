@@ -1,0 +1,24 @@
+AppBundle\Entity\OrdersGoods:
+    type: entity
+    table: orders_goods
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    oneToOne:
+        orderId:
+            targetEntity: Orders
+            joinColumn:
+               name: order_id
+               referencedColumnName: id
+        goodId:
+            targetEntity: Goods
+            joinColumn:
+               name: good_id
+               referencedColumnName: id
+    lifecycleCallbacks: {  }
