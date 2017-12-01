@@ -1,3 +1,53 @@
+app_track_api:
+    resource: "@AppBundle/Controller/TrackRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_playlist_api:
+    resource: "@AppBundle/Controller/PlaylistRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_mediatype_api:
+    resource: "@AppBundle/Controller/MediatypeRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_invoiceline_api:
+    resource: "@AppBundle/Controller/InvoicelineRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_invoice_api:
+    resource: "@AppBundle/Controller/InvoiceRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_genre_api:
+    resource: "@AppBundle/Controller/GenreRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_employee_api:
+    resource: "@AppBundle/Controller/EmployeeRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_customer_api:
+    resource: "@AppBundle/Controller/CustomerRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_artist_api:
+    resource: "@AppBundle/Controller/ArtistRESTController.php"
+    type:   rest
+    prefix:   /api
+
+app_album_api:
+    resource: "@AppBundle/Controller/AlbumRESTController.php"
+    type:   rest
+    prefix:   /api
+
 proxy:
     resource: "@ProxyBundle/Resources/config/routing.yml"
     prefix:   /

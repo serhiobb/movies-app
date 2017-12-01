@@ -94,15 +94,16 @@ doctrine:
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
+        auto_mapping: false
         mappings:
-            ApplicationSonataDashboardBundle: ~
-            SonataDashboardBundle: ~
+#            ApplicationSonataDashboardBundle: ~
+#            SonataDashboardBundle: ~
             ApplicationSonataUserBundle: ~
             SonataUserBundle: ~
             FOSUserBundle: ~
-            SonataNotificationBundle: ~
-            ApplicationSonataNotificationBundle: ~
+#            SonataNotificationBundle: ~
+#            ApplicationSonataNotificationBundle: ~
+            AppBundle: ~
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -127,8 +128,8 @@ sonata_cache:
 sonata_user:
     security_acl: true
     manager_type: orm
-sonata_notification:
-    backend: sonata.notification.backend.runtime
+#sonata_notification:
+#    backend: sonata.notification.backend.runtime
 sonata_block:
     default_contexts: [sonata_page_bundle]
     blocks:
@@ -181,12 +182,12 @@ fos_user:
         group_manager: sonata.user.orm.group_manager
     service:
         user_manager: sonata.user.orm.user_manager
-sonata_dashboard:
-    default_container: sonata.dashboard.block.container
-    # Entity Classes
-    class:
-        dashboard: Application\Sonata\DashboardBundle\Entity\Dashboard
-        block:     Application\Sonata\DashboardBundle\Entity\Block
+#sonata_dashboard:
+#    default_container: sonata.dashboard.block.container
+#    # Entity Classes
+#    class:
+#        dashboard: Application\Sonata\DashboardBundle\Entity\Dashboard
+#        block:     Application\Sonata\DashboardBundle\Entity\Block
 proxy:
     endpoints:
         httpbin:

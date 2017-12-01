@@ -1,4 +1,4 @@
-Symfony2 app example
+#Sonata ChinookDb Showcase
 ====================
 
 Installation
@@ -7,8 +7,6 @@ Installation
 Requires: php5, mysql
 
 1. Clone repo to local directory.
-
-    `git clone https://github.com/serhiobb/movies-app .`
 2. Run Composer install
 
     `composer install`
@@ -21,7 +19,3 @@ Requires: php5, mysql
     `./app/console fos:user:create %username% --super-admin`
     
 Login to admin at /admin/login
-
-Acccess Dashboard at /admin/dashboard
-
-Authors/books RESTful API uri's: `/api/authors` & `/api/books`

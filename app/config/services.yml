@@ -4,83 +4,62 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    app.admin.goods:
-        class: AppBundle\Admin\GoodsAdmin
-        arguments: [~, AppBundle\Entity\Goods, SonataAdminBundle:CRUD]
+    app.admin.album:
+        class: AppBundle\Admin\AlbumAdmin
+        arguments: [~, AppBundle\Entity\Album, AppBundle:AlbumAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Goods }
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Album }
 
-    app.admin.orders:
-        class: AppBundle\Admin\OrdersAdmin
-        arguments: [~, AppBundle\Entity\Orders, SonataAdminBundle:CRUD]
+    app.admin.artist:
+        class: AppBundle\Admin\ArtistAdmin
+        arguments: [~, AppBundle\Entity\Artist, AppBundle:ArtistAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Orders }
-
-    app.admin.static_pages:
-        class: AppBundle\Admin\StaticPagesAdmin
-        arguments: [~, AppBundle\Entity\StaticPages, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: StaticPages }
-
-    app.admin.order_payments:
-        class: AppBundle\Admin\OrderPaymentsAdmin
-        arguments: [~, AppBundle\Entity\OrderPayments, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: OrderPayments }
-
-    app.admin.good_cards:
-        class: AppBundle\Admin\GoodCardsAdmin
-        arguments: [~, AppBundle\Entity\GoodCards, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: GoodCards }
-
-    app.admin.offers:
-        class: AppBundle\Admin\OffersAdmin
-        arguments: [~, AppBundle\Entity\Offers, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Offers }
-
-    app.admin.customer_addreses:
-        class: AppBundle\Admin\CustomerAddresesAdmin
-        arguments: [~, AppBundle\Entity\CustomerAddreses, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: CustomerAddreses }
-
-    app.admin.feedback:
-        class: AppBundle\Admin\FeedbackAdmin
-        arguments: [~, AppBundle\Entity\Feedback, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Feedback }
-
-    app.admin.shop_data:
-        class: AppBundle\Admin\ShopDataAdmin
-        arguments: [~, AppBundle\Entity\ShopData, SonataAdminBundle:CRUD]
-        tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: ShopData }
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Artist }
 
     app.admin.customer:
         class: AppBundle\Admin\CustomerAdmin
-        arguments: [~, AppBundle\Entity\Customer, SonataAdminBundle:CRUD]
+        arguments: [~, AppBundle\Entity\Customer, AppBundle:CustomerAdmin]
         tags:
             - { name: sonata.admin, manager_type: orm, group: admin, label: Customer }
 
-    app.admin.orders_goods:
-        class: AppBundle\Admin\OrdersGoodsAdmin
-        arguments: [~, AppBundle\Entity\OrdersGoods, SonataAdminBundle:CRUD]
+    app.admin.employee:
+        class: AppBundle\Admin\EmployeeAdmin
+        arguments: [~, AppBundle\Entity\Employee, AppBundle:EmployeeAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: OrdersGoods }
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Employee }
 
-    app.admin.stores:
-        class: AppBundle\Admin\StoresAdmin
-        arguments: [~, AppBundle\Entity\Stores, SonataAdminBundle:CRUD]
+    app.admin.genre:
+        class: AppBundle\Admin\GenreAdmin
+        arguments: [~, AppBundle\Entity\Genre, AppBundle:GenreAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Stores }
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Genre }
 
-    app.admin.categories:
-        class: AppBundle\Admin\CategoriesAdmin
-        arguments: [~, AppBundle\Entity\Categories, SonataAdminBundle:CRUD]
+    app.admin.invoice:
+        class: AppBundle\Admin\InvoiceAdmin
+        arguments: [~, AppBundle\Entity\Invoice, AppBundle:InvoiceAdmin]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: admin, label: Categories }
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Invoice }
+
+    app.admin.invoiceline:
+        class: AppBundle\Admin\InvoicelineAdmin
+        arguments: [~, AppBundle\Entity\Invoiceline, AppBundle:InvoicelineAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Invoiceline }
+
+    app.admin.mediatype:
+        class: AppBundle\Admin\MediatypeAdmin
+        arguments: [~, AppBundle\Entity\Mediatype, AppBundle:MediatypeAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Mediatype }
+
+    app.admin.playlist:
+        class: AppBundle\Admin\PlaylistAdmin
+        arguments: [~, AppBundle\Entity\Playlist, AppBundle:PlaylistAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Playlist }
+
+    app.admin.track:
+        class: AppBundle\Admin\TrackAdmin
+        arguments: [~, AppBundle\Entity\Track, AppBundle:TrackAdmin]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Track }

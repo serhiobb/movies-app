@@ -5,28 +5,21 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Customer
+ * Employee
  *
- * @ORM\Table(name="Customer", indexes={@ORM\Index(name="IFK_CustomerSupportRepId", columns={"SupportRepId"})})
+ * @ORM\Table(name="Employee", indexes={@ORM\Index(name="IFK_EmployeeReportsTo", columns={"ReportsTo"})})
  * @ORM\Entity
  */
-class Customer
+class Employee
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="CustomerId", type="integer", nullable=false)
+     * @ORM\Column(name="EmployeeId", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $customerid;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="FirstName", type="string", length=40, nullable=false)
-     */
-    private $firstname;
+    private $employeeid;
 
     /**
      * @var string
@@ -38,9 +31,30 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="Company", type="string", length=80, nullable=true)
+     * @ORM\Column(name="FirstName", type="string", length=20, nullable=false)
      */
-    private $company;
+    private $firstname;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Title", type="string", length=30, nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="BirthDate", type="datetime", nullable=true)
+     */
+    private $birthdate;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="HireDate", type="datetime", nullable=true)
+     */
+    private $hiredate;
 
     /**
      * @var string
@@ -94,42 +108,26 @@ class Customer
     /**
      * @var string
      *
-     * @ORM\Column(name="Email", type="string", length=60, nullable=false)
+     * @ORM\Column(name="Email", type="string", length=60, nullable=true)
      */
     private $email;
 
     /**
-     * @var Employee
+     * @var \Employee
      *
      * @ORM\ManyToOne(targetEntity="Employee")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="SupportRepId", referencedColumnName="EmployeeId")
+     *   @ORM\JoinColumn(name="ReportsTo", referencedColumnName="EmployeeId")
      * })
      */
-    private $supportrepid;
+    private $reportsto;
 
     /**
      * @return int
      */
-    public function getCustomerid()
+    public function getEmployeeid()
     {
-        return $this->customerid;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    /**
-     * @param string $firstname
-     */
-    public function setFirstname($firstname)
-    {
-        $this->firstname = $firstname;
+        return $this->employeeid;
     }
 
     /**
@@ -151,17 +149,65 @@ class Customer
     /**
      * @return string
      */
-    public function getCompany()
+    public function getFirstname()
     {
-        return $this->company;
+        return $this->firstname;
     }
 
     /**
-     * @param string $company
+     * @param string $firstname
      */
-    public function setCompany($company)
+    public function setFirstname($firstname)
     {
-        $this->company = $company;
+        $this->firstname = $firstname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBirthdate()
+    {
+        return $this->birthdate;
+    }
+
+    /**
+     * @param \DateTime $birthdate
+     */
+    public function setBirthdate($birthdate)
+    {
+        $this->birthdate = $birthdate;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getHiredate()
+    {
+        return $this->hiredate;
+    }
+
+    /**
+     * @param \DateTime $hiredate
+     */
+    public function setHiredate($hiredate)
+    {
+        $this->hiredate = $hiredate;
     }
 
     /**
@@ -293,19 +339,19 @@ class Customer
     }
 
     /**
-     * @return Employee
+     * @return \Employee
      */
-    public function getSupportrepid()
+    public function getReportsto()
     {
-        return $this->supportrepid;
+        return $this->reportsto;
     }
 
     /**
-     * @param Employee $supportrepid
+     * @param \Employee $reportsto
      */
-    public function setSupportrepid($supportrepid)
+    public function setReportsto($reportsto)
     {
-        $this->supportrepid = $supportrepid;
+        $this->reportsto = $reportsto;
     }
 
     function __toString()

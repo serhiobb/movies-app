@@ -16,35 +16,4 @@ class IndexController extends Controller
             // ...
         ));
     }
-
-    /**
-     * @Route("/store")
-     */
-    public function storeAction()
-    {
-        return $this->render('AppBundle:Index:store.html.twig', array(
-            // ...
-        ));
-    }
-
-    /**
-     * @Route("/checkout")
-     */
-    public function checkoutAction()
-    {
-        return $this->render('AppBundle:Index:checkout.html.twig', array(
-            // ...
-        ));
-    }
-
-    /**
-     * @Route("/cart")
-     */
-    public function cartAction()
-    {
-        return $this->render('AppBundle:Index:cart.html.twig', array(
-            // ...
-        ));
-    }
-
 }

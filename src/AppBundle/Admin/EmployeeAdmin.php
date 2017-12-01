@@ -8,7 +8,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 
-class CustomerAdmin extends AbstractAdmin
+class EmployeeAdmin extends AbstractAdmin
 {
     /**
      * @param DatagridMapper $datagridMapper
@@ -16,10 +16,12 @@ class CustomerAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('customerid')
-            ->add('firstname')
+            ->add('employeeid')
             ->add('lastname')
-            ->add('company')
+            ->add('firstname')
+            ->add('title')
+            ->add('birthdate')
+            ->add('hiredate')
             ->add('address')
             ->add('city')
             ->add('state')
@@ -28,7 +30,7 @@ class CustomerAdmin extends AbstractAdmin
             ->add('phone')
             ->add('fax')
             ->add('email')
-            ->add('supportrepid')
+            ->add('reportsto')
         ;
     }
 
@@ -38,10 +40,12 @@ class CustomerAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('customerid', null, ['label' => '#'])
-            ->add('firstname')
+            ->add('employeeid', null, ['label' => '#'])
             ->add('lastname')
-            ->add('company')
+            ->add('firstname')
+            ->add('title')
+            ->add('birthdate')
+            ->add('hiredate')
             ->add('address')
             ->add('city')
             ->add('state')
@@ -50,7 +54,7 @@ class CustomerAdmin extends AbstractAdmin
             ->add('phone')
             ->add('fax')
             ->add('email')
-            ->add('supportrepid', null, ['label' => 'Support Rep'])
+            ->add('reportsto', null, ['label' => 'Report STO'])
             ->add('_action', null, array(
                 'actions' => array(
                     'show' => array(),
@@ -67,10 +71,12 @@ class CustomerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('customerid')
-            ->add('firstname')
+            ->add('employeeid')
             ->add('lastname')
-            ->add('company')
+            ->add('firstname')
+            ->add('title')
+            ->add('birthdate')
+            ->add('hiredate')
             ->add('address')
             ->add('city')
             ->add('state')
@@ -79,7 +85,7 @@ class CustomerAdmin extends AbstractAdmin
             ->add('phone')
             ->add('fax')
             ->add('email')
-            ->add('supportrepid')
+            ->add('reportsto')
         ;
     }
 
@@ -89,10 +95,12 @@ class CustomerAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
-            ->add('customerid')
-            ->add('firstname')
+            ->add('employeeid')
             ->add('lastname')
-            ->add('company')
+            ->add('firstname')
+            ->add('title')
+            ->add('birthdate')
+            ->add('hiredate')
             ->add('address')
             ->add('city')
             ->add('state')
@@ -101,7 +109,7 @@ class CustomerAdmin extends AbstractAdmin
             ->add('phone')
             ->add('fax')
             ->add('email')
-            ->add('supportrepid')
+            ->add('reportsto')
         ;
     }
 }
