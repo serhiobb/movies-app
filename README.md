@@ -11,7 +11,7 @@ Requires: php5, mysql
 
 1. Clone repo to local directory.
 
-    `git clone https://github.com/serhiobb/symfony
+    `git clone https://github.com/serhiobb/symfony2
 2. Run Composer install
 
     `composer install`
