@@ -2,7 +2,7 @@ Symfony2 all in one
 ====================
 About
 --------------
-This repo contains symfony2 with all bundles, that you need to  project startup.
+This repo contains symfony2 with all bundles, that you need for project startup.
 
 Installation
 --------------
