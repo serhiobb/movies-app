@@ -13,7 +13,7 @@ class FeedbackType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('whereFrom')->add('content')        ;
+        $builder->add('whereFrom')->add('content');
     }
     
     /**

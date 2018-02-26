@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Form\FeedbackType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Form\FormView;
 
 class IndexController extends Controller
 {
@@ -12,9 +14,22 @@ class IndexController extends Controller
      */
     public function mainAction()
     {
+        $feedbackType = new FormView();
+        $feedbackType->vars = ['_token' => '%token%'];
         return $this->render('AppBundle:Index:main.html.twig', array(
-            // ...
+            'feedback_form' => $feedbackType
         ));
+    }
+
+    /**
+     * @Route(path="/current-form", name="current-form")
+     */
+    public function processFormAction()
+    {
+        //process form
+        //...
+        //redirect to redults
+        redirect('/main');
     }
 
     /**

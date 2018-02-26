@@ -1,45 +1,76 @@
 {% extends "@AppBundle/layout.html.twig" %}
 
 {% block lodash_templates %}
-	<script type="text/lodash-template" id="ltpl-movie">
-		<div class="nav-item menu-item movie-block" data-movie-id="[[movie_id]]">
-			<img src="[[originalCover]]" alt="" class="img-responsive img-thumbnail">
+	<script type="text/lodash-template" id="current-form">
+		<div class="row"><div class="col-xs-3 col-xs-offset-1"><div class="right"><div class="info-block">
+			<h2>Request for quote</h2>
+			<form class="quote-request" action="{{ path('current-form') }}" method="post">
+				{#{{ form_widget(feedback_form._token) }}#}
+				<div class="row">
+					{#{{ form_label(feedback_form.name) }}#}
+					{#{{ form_widget(feedback_form.name) }}#}
+					{#{{ form_errors(feedback_form.name) }}#}
+					<label for="name">Your Name:</label><br>
+					<input type="text" name="feedback_record[name]" id="name">
+					<span class="error-message"></span>
+				</div>
+				<div class="row">
+					{#{{ form_label(feedback_form.email) }}#}
+					{#{{ form_widget(feedback_form.email) }}#}
+					{#{{ form_errors(feedback_form.email) }}#}
+					<label for="email">E-mail:</label><br>
+					<input type="text" name="feedback_record[email]" id="email">
+					<span class="error-message"></span>
+				</div>
+				<div class="row">
+					{#{{ form_label(feedback_form.message) }}#}
+					{#{{ form_widget(feedback_form.message) }}#}
+					{#{{ form_errors(feedback_form.message) }}#}
+					<label for="message">Message</label><br>
+					<textarea name="message" id="message" cols="30" rows="10"></textarea>
+					<span class="error-message"></span>
+				</div>
+				<div class="row"><input class="float-right" type="submit" value="Send"></div>
+				<div class="sent-message"></div>
+			</form>
+		</div></div></div></div>
+	</script>
+	<script type="text/lodash-template" id="book">
+		<div class="nav-item menu-item book-block" data-book-id="[[id]]">
+			<img src="[[thumbnail]]" alt="" class="img-responsive img-thumbnail">
 			<div>
 				<h1>[[name]]</h1>
-				[% if(typeof rating_imdb_value != 'undefined' && rating_imdb_value != '0') { %]
-				<span class="pull-left">IMDB: [[rating_imdb_value]]</span>
+				[% if(typeof rating != 'undefined' && rating != '0') { %]
+				<span class="pull-left">rating: [[rating]]</span>
 				[% } %]
 				<span class="pull-right">[[hit]] <span class="glyphicon glyphicon-heart"></span></span>
 				<div class="clearfix"></div>
 			</div>
 		</div>
 	</script>
-	<script type="text/lodash-template" id="ltpl-movie-single">
+	<script type="text/lodash-template" id="book-info">
 		<div class="main">
 			<div class="title">
 				<span class="glyphicon glyphicon-arrow-left nav-item return-to-list"></span>&nbsp;&nbsp;&nbsp;
 				<h1>[[name]]</h1>
 			</div>
-			<img class="poster" src="[[covers[0].original]]"/>
+			<img class="poster" src="[[thumbnail]]"/>
 			<div class="description">
-				Год: [[year]]<br/>
-				Страна: [[countries.join(', ')]]<br/>
-				Режиссер: [[directors.join(', ')]]<br/><br/>
 				[[description]]
 			</div>
 			<div class="clearfix">&nbsp;</div>
 		</div>
 		<div class="navs">
 			<div class="ratings">
-				[% if(typeof rating_imdb_value != 'undefined' && rating_imdb_value != '0') { %]
-				<span>IMDB: [[rating_imdb_value]]</span>
+				[% if(typeof rating != 'undefined' && rating != '0') { %]
+				<span>rating: [[rating]]</span>
 				[% } %]
 				<span><span class="glyphicon glyphicon-heart"></span> [[hit]]</span>
 			</div>
 			<div class="menu">
-				<div class="play-block nav-item" data-stream-link="[[stream]]">
-					<span class="glyphicon glyphicon-play"></span><br/>
-					Смотреть
+				<div class="search-block nav-item" data-stream-link="[[stream]]">
+					<span class="glyphicon glyphicon-search"></span><br/>
+					Поиск
 				</div>
 				<div class="clearfix">&nbsp;</div>
 			</div>
@@ -50,49 +81,45 @@
     _.templateSettings.evaluate = /\[%([\s\S]+?)%\]/g
 
 	var DataProvider = {
-        remoteHost:"http://online.scts.tv/",
-        getCatalog:function(filter, cb){
+        remoteHost:"http://localhost:8000/",
+        getList: function(filter, cb){
             var data = {}
-            data.action = [this.requestActions.getCatalogQ]
-            data.genre = [filter.genre] || undefined
+            data.action = [this.requestActions.getList]
             data.offset = [filter.offset] || [0]
-            data.size = [filter.size] || [12]
-            data.searchString = [filter.searchString] || undefined
-            data.filterStreamingOnly = [filter.filterStreamingOnly] || undefined
-            data.excludeSerials = [filter.excludeSerials] || undefined
-            data.excludeAnime = [filter.excludeAnime] || undefined
+            data.size = [filter.size] || [120]
+            data.filter = [filter.filter] || undefined
             this.request(data, cb)
         },
-        getMovie: function(id, cb){
+        getBook: function(id, cb){
             var data = {}
-            data.action = [this.requestActions.getMovie]
-            data.movie_id = [id]
+            data.action = [this.requestActions.getBook]
+            data.book_id = [id]
             this.request(data, cb)
         },
-        getBestsellers:function(cb){
+        getAuthors: function(cb){
             var data = {}
-            data.action = [this.requestActions.getBestsellers]
+            data.action = [this.requestActions.getAuthors]
             this.request(data, cb)
         },
-        getGenres:function(cb){
+        getInAlphabetOrder: function(data, cb){
             var data = {}
-            data.action = [this.requestActions.getGenres]
+            data.action = [this.requestActions.getInAlphabetOrder]
+			data.letter = [data.letter] || [null]
             this.request(data, cb)
         },
         requestParams:{
-            type:"POST",
-            url: "http://online.scts.tv/api.php?format=ajax",
-            contentType:'application/octet-stream charset=utf-8',
+            type:"GET",
+            url: "http://localhost:8000/api.php?format=ajax",
+            contentType:'text/xml charset=utf-8',
             crossDomain:true,
             data:null,
             success:function(response){}
         },
         requestActions:{
-            getCatalog:'video.getCatalog',
-            getCatalogQ:'video.getCatalogQ',
-            getMovie:'videoCustom.getMovie',
-            getBestsellers:'video.getBestsellers',
-            getGenres:'video.getGenres'
+            getList:'books.list',
+            getBook:'books.detail',
+            getAuthors:'books.authors',
+            getInAlphabetOrder:'books.alphabet-order'
         },
         request:function(data, successCb){
             var rp = this.requestParams
@@ -102,175 +129,137 @@
         }
     }
     var Controller = {
-        showMoviesList:function(genre, offset, size, searchString){
-            var filter = {}
-            filter.genre = genre
-            filter.offset = offset
-            filter.size = size
-            filter.searchString = searchString || undefined
-            filter.filterStreamingOnly = true
-            filter.excludeSerials = (genre != 37) ? true : undefined
-            DataProvider.getCatalog(filter, this._renderMoviesListData)
-            $('.scene > div:not(.movies-stack)').hide()
-            $('.scene .movies-stack').show()
+        showBooksList:function(filter){
+            DataProvider.getList(filter, this._renderBooksListData)
+            $('.scene > div:not(.books-stack)').hide()
+            $('.scene .books-stack').show()
         },
-        showMovieInfo:function(id){
-            DataProvider.getMovie(id, this._renderMovieInfo)
+        showBookInfo:function(id){
+            DataProvider.getBook(id, this._renderBookInfo)
         },
-        hideMovieInfo:function(){
-            $('.scene > div:not(.movies-stack)').hide()
-            $('.scene .movies-stack').show()
-            $$nav.on($(document.body), $('.movies-stack > div:nth-child(1)'))
+        hideBookInfo:function(){
+            $('.scene > div:not(.books-stack)').hide()
+            $('.scene .books-stack').show()
+			this.hideSearchResults();
+//            $$nav.on($(document.body), $('.books-stack > div:nth-child(1)'))
         },
-        playMovie:function(url){
+        searchOnline:function(book_id){
             $('.wrap').hide()
-            $('#smart_player').show()
             $('body').css('background','transparent')
-            Player.play({url:url, type:'vod'})
+            DataProvider.getBook(book_id, this._renderBookInfo);
         },
-        stopMovie:function(){
-            Player.stop()
-            $('#smart_player').hide()
+        hideSearchResults:function(){
+            this.hideBookInfo();
             $('body').css('background','linear-gradient(210deg, #192342 0%,#0A112D 12%, #101E54 22%,#224693 44%,#1B3159 54%,#132451 74%,#02092D 87%,#05070F 100%)')
             $('.wrap').show()
         },
-        _renderMoviesListData:function(data){
-            data = JSON.parse(data.replace(/JsHttpRequest.dataReady\((.+)\)/, '$1'))
+        _renderBooksListData:function(data){
+            data = JSON.parse(data)
             console.log(data)
-            movies = data.js[0].response.movies
-            if(movies != undefined) {
+            books = data.books
+            if(books != undefined) {
                 html = ''
-                for (var i = 0; i < movies.length; i++) {
-                    movies[i].originalCover = DataProvider.remoteHost + movies[i].originalCover
-                    html = html + (_.template($('script#ltpl-movie').text()))(movies[i])
+                for (var i = 0; i < books.length; i++) {
+                    html = html + (_.template($('script#ltpl-book').text()))(books[i])
                 }
-                $('.movies-stack').html(html)
-                $$nav.on()
-                $$nav.current($('.movies-stack').find($$nav.area_selector).filter(':visible').eq(0))
+                $('.books-stack').html(html)
+//                $$nav.on()
+//                $$nav.current($('.books-stack').find($$nav.area_selector).filter(':visible').eq(0))
             }
         },
-        _renderMovieInfo:function(data){
-            data = JSON.parse(data.replace(/JsHttpRequest.dataReady\((.+)\)/, '$1'))
+        _renderBookInfo:function(data){
+            data = JSON.parse(data)
             console.log(data)
-            movie = data.js[0].response.movie
-            if(movie == undefined){
+            book = data.book
+            if(book == undefined){
                 return false
             }
-            files = movie.files
-            var streams = []
-            for(var i = 0; i < files.length; i++){
-                if(typeof files[i].links.streams == 'object'){
-                    for(str in files[i].links.streams){
-                        if(str != undefined){
-                            streams.push(files[i].links.streams[str])
-                        }
-                    }
-                }
-            }
-            movie.stream = streams.pop()
-            movie.covers[0].original = DataProvider.remoteHost + movie.covers[0].original
-            movieInfoHtml = (_.template($("script#ltpl-movie-single").text()))(movie)
-            $('.movie-info').html(movieInfoHtml)
-            $('.scene .movie-info').show()
-            $$nav.on($('.movie-info'))
+            bookInfoHtml = (_.template($("script#ltpl-book-single").text()))(book)
+            $('.book-info').html(bookInfoHtml)
+            $('.scene .book-info').show()
+//            $$nav.on($('.book-info'))
         }
     }
-    SB.ready(function(){
-        $$nav.on()
-        $$legend.show()
-        Player.play()
+    document.onreadystatechange = function(evy){
+        Controller.searchOnline();
+		Controller.showBooksList(null);
         $(function(){
-            var offset = 0
-            var genre = undefined
-            var elsForPage = 12
-            var searchString = undefined
-            Controller.showMoviesList(genre, offset, elsForPage, searchString)
+			var filter = {};
+			filter.offset = 0
+            filter.elsForPage = 120
+            filter.searchString = undefined
+            Controller.showBooksList(filter)
             $('.menu-items').delegate('li.nav-item','click',function(ev){
                 var group_id = $(ev.currentTarget).attr('data-group-id')
                 $(ev.currentTarget).addClass('current')
                 $(ev.currentTarget).siblings().removeClass('current')
-                genre = group_id
-                offset = 0
-                console.log(group_id)
-                $$nav.off()
-                Controller.showMoviesList(genre,offset,elsForPage)
+                filter.offset = 0
+                Controller.showBooksList(filter)
             })
-            $('.movies-stack').delegate('div.movie-block','click',function(ev){
-                var id = $(ev.currentTarget).attr('data-movie-id')
+            $('.books-stack').delegate('div.book-block','click',function(ev){
+                var id = $(ev.currentTarget).attr('data-book-id')
                 console.log(id)
-                Controller.showMovieInfo(id)
+                Controller.showBookInfo(id)
             })
-            $('.movie-info').delegate('.play-block','click', function(ev){
-                var url = $(ev.currentTarget).attr('data-stream-link')
+            $('.book-info').delegate('.play-block','click', function(ev){
+                var url = $(ev.currentTarget).attr('data-xml-link')
                 console.log(url)
-                Controller.playMovie(url)
+                Controller.showBookInfo(url)
             })
-            $('.movie-info').delegate('.return-to-list','click', function(ev){
-                Controller.hideMovieInfo()
+            $('.book-info').delegate('.return-to-list','click', function(ev){
+                Controller.hideBookInfo()
             })
-            $('.movies-stack').delegate('div.movie-block', 'nav_key:up nav_key:down', function(ev){
-                var el = ev.currentTarget
-                var dir = ev.keyName
-                var navs = $('.movies-stack').find($$nav.area_selector).filter(':visible')
-                var nextSibling = $$nav.findNav($(el), dir, navs)
-                console.log(el,nextSibling,dir)
-                if(!nextSibling){
-                    if(dir == 'up'){
-                        offset -= elsForPage
-                        if(offset <= 0) {
-                            offset = 0
-                            $('.arrows .glyphicon.glyphicon-arrow-up').removeClass('waypoint')
-                        }
-                    }else if(dir == 'down'){
-                        offset += elsForPage
-                        $('.arrows .glyphicon.glyphicon-arrow-up').addClass('waypoint')
-                        //TODO: upper bound
-                    }
-                    $$nav.off()
-                    Controller.showMoviesList(genre, offset, elsForPage)
-                }
-            })
+//            $('.books-stack').delegate('div.book-block', 'nav_key:up nav_key:down', function(ev){
+//                var el = ev.currentTarget
+//                var dir = ev.keyName
+//                var navs = $('.books-stack').find($$nav.area_selector).filter(':visible')
+//                var nextSibling = $$nav.findNav($(el), dir, navs)
+//                console.log(el,nextSibling,dir)
+//                if(!nextSibling){
+//                    if(dir == 'up'){
+//                        offset -= elsForPage
+//                        if(offset <= 0) {
+//                            offset = 0
+//                            $('.arrows .glyphicon.glyphicon-arrow-up').removeClass('waypoint')
+//                        }
+//                    }else if(dir == 'down'){
+//                        offset += elsForPage
+//                        $('.arrows .glyphicon.glyphicon-arrow-up').addClass('waypoint')
+//                        //TODO: upper bound
+//                    }
+//                    $$nav.off()
+//                    Controller.showBooksList(genre, offset, elsForPage)
+//                }
+//            })
             $('.arrows .glyphicon').on('click', function(evy){
                 var el = evy.currentTarget
                 if ( $(el).hasClass('glyphicon-arrow-up') ){
-                    offset -= elsForPage
+                    offset -= filter.elsForPage
                     if(offset <= 0) {
                         offset = 0
                         $(el).removeClass('waypoint')
                     }
                 }
                 if ( $(el).hasClass('glyphicon-arrow-down') ){
-                    offset += elsForPage
+                    offset += filter.elsForPage
                     $('.arrows .glyphicon.glyphicon-arrow-up').addClass('waypoint')
                 }
-                Controller.showMoviesList(genre, offset, elsForPage)
+                Controller.showBooksList(filter)
             })
-            $('.search-box #movie-search').SBInput({
-                keyboard:{
-                    type:'fulltext_ru',
-                    firstLayout:'ru'
-                }
-            })
-            $('.search-box #movie-search').on('keyboard_complete', function(ev){
-                searchString = encodeURIComponent($(ev.currentTarget).val())
-                Controller.showMoviesList(0, 0, 12, searchString)
-            })
-            $(document.body).on('nav_key:red',function(evy){
-                Controller.stopMovie()
-            })
-            /*Player Controls*/
-            $(document.body).on('nav_key:play',function(evy){
-                Player.resume()
-            })
-            $(document.body).on('nav_key:pause',function(evy){
-                Player.pause()
-            })
-            $(document.body).on('nav_key:ff',function(evy){
-                Player.seek(Player.videoInfo.currentTime+((Player.videoInfo.duration/100)*5))
-            })
-            $(document.body).on('nav_key:rw',function(evy){
-                Player.seek(Player.videoInfo.currentTime-((Player.videoInfo.duration/100)*5))
-            })
+//            $('.search-box #book-search').SBInput({
+//                keyboard:{
+//                    type:'fulltext_ru',
+//                    firstLayout:'ru'
+//                }
+//            })
+//            $('.search-box #book-search').on('keyboard_complete', function(ev){
+//                filter = encodeURIComponent($(ev.currentTarget).val())
+//                Controller.showBooksList(filter)
+//            })
+
+//            $(document.body).on('nav_key:rw',function(evy){
+//                console.log('nav_key:rw');
+//            })
             /*Debug*/
             /*$(document.body).on('nav_key:green', function(evy){
              var rect = document.body.getBoundingClientRect()
@@ -282,8 +271,57 @@
              $$log([evy.clientX, evy.clientY])
              })*/
         })
-    })
-</script>
+    }
+	document.addEventListener('DOMContentLoaded', function(){
+            function addError(errorObj, form){
+                console.log(errorObj)
+                form.elements[errorObj.field].classList.add('error')
+                form.querySelector('*[id='+errorObj.field+'] + span.error-message').textContent = errorObj.error
+            }
+            document.querySelector('#current-form').onsubmit = function(evy){
+                evy.preventDefault()
+                fields = {}
+                fields.feedback_record_name = this.elements.feedback_record_name.value
+                fields.feedback_record_email = this.elements.feedback_record_email.value
+                fields.feedback_record_message = this.elements.feedback_record_message.value
+                for(field in fields){
+                    this.elements[field].classList.remove('error')
+                    this.querySelector('*[id='+field+'] + span.error-message').textContent = ''
+                }
+                this.querySelector('.sent-message').textContent = ""
+                mail_re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+                errors = []
+                if (!(fields.feedback_record_name += '') || fields.feedback_record_name === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_name' })}
+                if (!(fields.feedback_record_email += '') || fields.feedback_record_email === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_email' })}
+                else if (!(mail_re.test(fields.feedback_record_email))) { errors.push({ error: "Email is not valid", field: 'feedback_record_email' })}
+                if (!(fields.feedback_record_message += '') || fields.feedback_record_message === '') { errors.push({ error: "This value should not be blank.", field: 'feedback_record_message' })}
+                console.log(errors)
+                for(error in errors){
+                    addError(errors[error], this)
+                }
+                if(errors.length === 0) {
+                    xhr = new XMLHttpRequest()
+                    xhr.open('POST', this.action)
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+                    form = this
+                    xhr.onreadystatechange = function(){
+                        if(xhr.readyState === 4){
+                            response = JSON.parse(xhr.response)
+                            console.log(response.errors)
+                            if(response.errors.length === 0){
+                                form.querySelector('.sent-message').textContent = "Your Message Is Sent!"
+                            }else{
+                                for(error in response.errors){
+                                    addError(response.errors[error], this)
+                                }
+                            }
+                        }
+                    }
+                    xhr.send(new FormData(this))
+                }
+            }
+        })
+    </script>
 {% endblock %}
 
 
@@ -292,919 +330,275 @@
 	AppBundle:Index:main{% endblock %}
 
 {% block body %}
-	<div>
-<h1>Welcome to the Index:main page</h1>
+	<style type="text/css">
+		@font-face{
+			font-family: SohoGothicPro;
+			src: url(fonts/SohoGothicPro-Regular.otf);
+		}
+		* {
+			outline: none !important;
+			/*border: 1px #fff solid;*/
+			/*margin: 1px;*/
+		}
+		body {
+			background: linear-gradient(
+					210deg,
+					#192342 0%,
+					#0A112D 12%,
+					#101E54 22%,
+					#224693 44%,
+					#1B3159 54%,
+					#132451 74%,
+					#02092D 87%,
+					#05070F 100%
+			);
+			font-family: SohoGothicPro;
+			height: 100vh;
+			position: relative;
+			overflow: hidden;
+		}
+		.container-fluid {
+			padding-right: 1%;
+			padding-left: 1%;
+		}
+		.layout .col-lg-3 {
+			padding-left: 2%;
+			padding-right: 0%;
+		}
+		.layout .row {
+			margin-right: 0;
+		}
+		.nav.nav-pills.nav-stacked{
+			margin-bottom: 6vh;
+		}
+		.nav.nav-pills.nav-stacked li {
+			margin: 0 0;
+			border-radius: 0px;
+			height: 5.7vh;
+			font-size: 2vh;
+			border-top: 1px solid rgba(61, 100, 202, 0.3);
+			border-bottom: 1px solid rgba(25, 56, 113, 0.3);
+			border-right: 5px solid transparent;
+			background-color: rgba(255,255,255,0);
+			color: #fff;
+		}
+		.nav.nav-pills.nav-stacked li.current{
+			background-color: rgba(255,255,255,0.3);
+			border-right: none;
+			transition: border-right 0.2s linear, background-color 0.2s linear;
+		}
+		.nav.nav-pills.nav-stacked li.focus, .nav.nav-pills.nav-stacked li:focus{
+			background-color: rgba(255,255,255,0.2);
+			border-left: 4px solid red;
+			transition: border-right 0.2s linear, background-color 0.2s linear;
+		}
+		.nav > li > a {
+			color: #fff;
+		}
+		.nav > li > a:focus, .nav > li > a:hover {
+			background-color: transparent;
+		}
+		.nav > li:first-child{
+			border-top: none !important;
+		}
+		.nav > li:last-child{
+			border-bottom: none !important;
+		}
+		.layout .col-lg-9{
+			padding-left: 5%;
+			height: 100%;
+			padding-right: 0;
+		}
+		.search-box {
+			position:relative;
+		}
+		/*MOVIES-LIST*/
+		.books-stack {
+			position: relative;
+			height: 85vh;
+			display: block;
+			transition: 0.5s ease-out;
+		}
+		.books-stack.moving-up{
+			transform: translate(0,85vh);
+			opacity: 0;
+		}
+		.books-stack.moving-down{
+			transform: translate(0,-85vh);
+			opacity: 0;
+		}
+		.books-stack > div {
+			cursor: pointer;
+			display: block;
+			float: left;
+			margin-right: 1.98%;
+			width: 22.7%;
+			overflow: hidden;
+			height: 25vh;
+			position: relative;
+			margin-bottom: 1vh;
+			/*border-top: 3px solid transparent;*/
+			/*border-bottom: 3px solid transparent;*/
+		}
+		.books-stack > div.focus{
+			box-shadow: red 0px 0px 0px 4px;
+		}
+		.books-stack > div.focus > div{
+			/*border-bottom: 5px solid red;*/
+		}
+		.books-stack > div >img.img-thumbnail{
+			width: 100%;
+			border-radius: 0px;
+		}
+		.books-stack > div > div {
+			background: rgba(255,255,255,0.5);
+			border-bottom:5px solid #fff;
+			position: absolute;
+			width: 100%;
+			bottom: 0px;
+			padding: 0 6% 6%;
+		}
+		.books-stack > div h1 {
+			margin-top: 5%;
+			margin-bottom: 2%;
+			font-size: 2.28vh;
+		}
+		.books-stack span.glyphicon.glyphicon-heart {
+			color: red;
+		}
+		.top-line {
+			height: 15vh;
+		}
+		/*SINGLE MOVIE BLOCK*/
+		.book-info {
+			position: absolute;
+			top: 2%;
+			width: 92%;
+			background: rgba(16,16,16,0.98);
+			color: #eee;
+			padding: 2%;
+		}
+		img.poster {
+			float: left;
+			width: 29vh;
+			margin: 2vh;
+			margin-left: 0;
+		}
+		.book-info .main .title span.glyphicon{
+			font-size: 160%;
+			padding: 1%;
+		}
+		.book-info .main .title span.glyphicon.focus,
+		.book-info .main .title span.glyphicon:focus
+		.book-info .main .title span.glyphicon:hover{
+			background: rgba(227,227,227,0.4);
+		}
+		.book-info .main .title h1 {
+			display: inline-block;
+			margin-top: -1%;
+			margin-bottom: 7px;
+			font-size: 220%;
+		}
+		.book-info .main .title {
+			border-bottom: 1px solid rgba(255,255,255,0.3);
+		}
+		.book-info .main .description{
+			padding: 2%;
+		}
+		.book-info .navs .ratings{
+			margin-left: 33vh;
+			font-size: 180%;
+			margin-top: -1.8em;
+		}
+		.book-info .navs .menu {
+			margin-top: 1%;
+			border-top: 1px solid rgba(255,255,255,0.3);
+			border-bottom: 1px solid rgba(255,255,255,0.3);
+			font-size: 220%;
+		}
+		.book-info .navs .play-block{
+			text-align:center;
+			float: left;
+			padding: 1%;
+		}
+		.book-info .navs .play-block.focus,
+		.book-info .navs .play-block:hover,
+		.book-info .navs .play-block:focus{
+			background: rgba(227,227,227,0.4);
+		}
+		.book-info .return-block{}
+		#smart_player {
+			position: absolute;
+			z-index: 10;
+		}
+		.emul_voice_helpbar_wrap{
+			display: none !important;
+		}
+		.smart_input-container{
+			width:100%;
+		}
+		.smart_input-wrap{
+			margin-top: -8px;
+			margin-left: -14px;
+			height: 36px;
+			margin-right: -14px;
+		}
+		.focus .smart_input-wrap{
+			border-width:2px;
+			border-color: red;
+		}
+		.arrows {
+			position: absolute;
+			display: block !important;
+			z-index: 10;
+			right: 4%;
+			font-size: 300%;
+			color: rgba(227,227,227,0.5);
+		}
+		.arrows .glyphicon {
+			position: absolute;
+		}
+		.arrows .glyphicon:hover, .arrows .glyphicon.focus{
+			background-color: rgba(255,255,255,0.3);
+		}
+		.arrows .glyphicon.waypoint{
+			color: rgba(227,127,127,0.5);
+		}
+		.arrows .glyphicon-arrow-up{}
+		.arrows .glyphicon-arrow-down{
+			top: 72.1vh;
+		}
+	</style>
+	<div class="wrap">
+		<div class="container-fluid layout">
+			<div class="row top-line">
+			</div>
+			<div class="col-lg-2">
+				<div class="row">
+					<ul class="nav nav-pills nav-stacked menu-items">
+						<li class="nav-item menu-item" data-group-id="37"><a>Автор1</a></li>
+						<li class="nav-item menu-item" data-group-id="37"><a>Автор2</a></li>
+						<li class="nav-item menu-item" data-group-id="37"><a>Автор3</a></li>
+					</ul>
+				</div>
+				<div class="clearfix"></div>
+				<div class="row form-group search-box">
+					<input type="text" class="form-control nav-item" id="book-search">
+					<span class="glyphicon glyphicon-search form-control-feedback"></span>
+				</div>
+			</div>
+			<div class="col-lg-10 scene">
+				<div class="arrows">
+					<span class="glyphicon glyphicon-arrow-up nav-item"></span>
+					<span class="glyphicon glyphicon-arrow-down waypoint nav-item"></span>
+				</div>
+				<div class="row books-stack">
 
-<div class="jumbotron">
-	<div class="container">
-		<h1>Greetings</h1>
-		<p>Contents...</p>
-		<p>
-			<a class="btn btn-primary btn-lg">Learn more</a>
-		</p>
-	</div>
-</div>
-	<div class="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<strong>Title!</strong> Alert body ...
-	</div>
-	<a class="btn btn-primary" data-toggle="modal" href="modal-id">Trigger modal</a>
-	<div class="modal fade" id="modal-id">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Modal title</h4>
 				</div>
-				<div class="modal-body">
-					Modal body ...
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
-	<ul class="nav nav-tabs" role="tablist">
-		<li class="active"><a href="#">Home</a></li>
-		<li><a href="#">Help</a></li>
-		<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				Dropdown <span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu" role="menu">
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li><a href="#">Something else here</a></li>
-				<li class="divider"></li>
-				<li><a href="#">Separated link</a></li>
-			</ul>
-		</li>
-	</ul>
-	<div class="row"><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div></div>
-	<div class="affix affix-fixed affix-bottom" data-spy="affix" data-offset-top="60" data-offset-bottom="200"></div>
-</div>
-	<div>
-<h1>Welcome to the Index:main page</h1>
+				<div class="book-info">
 
-<div class="jumbotron">
-	<div class="container">
-		<h1>Greetings</h1>
-		<p>Contents...</p>
-		<p>
-			<a class="btn btn-primary btn-lg">Learn more</a>
-		</p>
+				</div>
+			</div>
+		</div>
 	</div>
-</div>
-	<div class="alert">
-		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-		<strong>Title!</strong> Alert body ...
-	</div>
-	<a class="btn btn-primary" data-toggle="modal" href="modal-id">Trigger modal</a>
-	<div class="modal fade" id="modal-id">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title">Modal title</h4>
-				</div>
-				<div class="modal-body">
-					Modal body ...
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-	<table class="table table-hover">
-		<thead>
-			<tr>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
-	<ul class="nav nav-tabs" role="tablist">
-		<li class="active"><a href="#">Home</a></li>
-		<li><a href="#">Help</a></li>
-		<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-				Dropdown <span class="caret"></span>
-			</a>
-			<ul class="dropdown-menu" role="menu">
-				<li><a href="#">Action</a></li>
-				<li><a href="#">Another action</a></li>
-				<li><a href="#">Something else here</a></li>
-				<li class="divider"></li>
-				<li><a href="#">Separated link</a></li>
-			</ul>
-		</li>
-	</ul>
-	<div class="row"><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div><div class="col-sm-3 col-md-3 col-lg-3">
-		<div class="thumbnail">
-			<img data-src="3" alt="">
-			<div class="caption">
-				<h3>Title</h3>
-				<p>
-					Content...
-				</p>
-				<p>
-					<a href="#" class="btn btn-primary">Action</a>
-					<a href="#" class="btn btn-default">Action</a>
-				</p>
-			</div>
-		</div>
-	</div></div>
-	<div class="affix affix-fixed affix-bottom" data-spy="affix" data-offset-top="60" data-offset-bottom="200"></div>
-</div>
-</div>
 	{% endblock %}
