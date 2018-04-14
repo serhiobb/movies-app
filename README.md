@@ -1,4 +1,4 @@
-Symfony2 all in one
+Symfony2 all in one (beta 0.02)
 ====================
 About
 --------------
